@@ -18,16 +18,12 @@ public class DigitSlot : MonoBehaviour, IDropHandler
     {
         Debug.Log("Drop detected on: " + gameObject.name);
 
-        if (eventData.pointerDrag != null)
+        string symbol = GhostButtonController.Instance.CurrentSymbol;
+        if (!string.IsNullOrEmpty(symbol))
         {
-            var payload = eventData.pointerDrag.GetComponent<KeyboardButtonDragPayload>();
-            if (payload != null)
-            {
-                slotText.text = payload.symbol;
-                Debug.Log("Symbol Set: " + payload.symbol);
-            }
-
-            Destroy(eventData.pointerDrag);
+            slotText.text = symbol;
+            Debug.Log("Symbol Set: " + symbol);
         }
     }
+
 }

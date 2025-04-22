@@ -9,36 +9,33 @@ public class GhostButtonController : MonoBehaviour
     private RectTransform rect;
     private CanvasGroup canvasGroup;
 
+    public string CurrentSymbol { get; private set; } = "";
+
     void Awake()
     {
         Instance = this;
-
         rect = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-
-        if (text == null)
-            text = GetComponentInChildren<Text>();
-
-        if (canvasGroup == null)
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-
+        if (text == null) text = GetComponentInChildren<Text>();
         Hide();
     }
 
-    public void Show(string symbol, Vector2 position)
+    public void Show(string symbol, Vector2 screenPosition)
     {
+        CurrentSymbol = symbol;
         text.text = symbol;
-        rect.position = position;
-        canvasGroup.alpha = 0.95f;
+        canvasGroup.alpha = 1f;
+        rect.position = screenPosition;
     }
 
-    public void Move(Vector2 position)
+    public void Move(Vector2 screenPosition)
     {
-        rect.position = position;
+        rect.position = screenPosition;
     }
 
     public void Hide()
     {
         canvasGroup.alpha = 0f;
+        CurrentSymbol = "";
     }
 }
