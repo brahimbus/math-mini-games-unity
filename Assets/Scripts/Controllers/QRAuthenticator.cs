@@ -109,15 +109,15 @@ public class QRAuthenticator : MonoBehaviour
 
     private IEnumerator AdjustCameraOrientation()
     {
-        yield return new WaitUntil(() => backCameraTexture.width > 16); // Wait for valid dimensions
+        // Wait until we get some valid size
+        yield return new WaitUntil(() => backCameraTexture.width > 100);
 
-        bool isVerticallyFlipped = backCameraTexture.videoVerticallyMirrored;
-        int rotationAngle = backCameraTexture.videoRotationAngle;
+        // Fix rotation
+        cameraFeed.rectTransform.localEulerAngles = new Vector3(0, 0, -backCameraTexture.videoRotationAngle);
 
-        Debug.Log($"Camera flip: {isVerticallyFlipped}, Rotation: {rotationAngle}");
-
-        cameraFeed.rectTransform.localEulerAngles = new Vector3(0, 0, -rotationAngle);
-        cameraFeed.uvRect = isVerticallyFlipped
+        // Fix mirroring
+        bool isFlipped = backCameraTexture.videoVerticallyMirrored;
+        cameraFeed.uvRect = isFlipped
             ? new Rect(0, 1, 1, -1)
             : new Rect(0, 0, 1, 1);
     }
@@ -135,7 +135,7 @@ public class QRAuthenticator : MonoBehaviour
 
                 if (barcodeResult != null)
                 {
-                    string uid = ExtractUIDFromURL(barcodeResult.Text);
+                    string uid = barcodeResult.Text;
                     if (!string.IsNullOrEmpty(uid))
                     {
                         AuthenticateUser(uid);
@@ -147,40 +147,37 @@ public class QRAuthenticator : MonoBehaviour
         }
     }
 
-    private string ExtractUIDFromURL(string url)
-    {
-        // Assuming the URL contains "uid=<uid>"
-        if (url.Contains("uid="))
-        {
-            return url.Substring(url.IndexOf("uid=") + 4);
-        }
-        return "";
-    }
-
     private void AuthenticateUser(string uid)
     {
         if (string.IsNullOrEmpty(uid))
         {
-            statusText.text = "Authentication failed: Uid is empty.";
+            statusText.text = "Welcome, Guest!";
             return;
         }
 
-        statusText.text = "Checking user in database...";
+        statusText.text = "A moment please...";
 
         DatabaseReference emailRef = dbReference.Child("players").Child(uid).Child("email");
 
         emailRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                Debug.LogError("Database access failed.");
+                statusText.text = "Signing in failed";
+                return;
+            }
             if (task.IsCompleted && task.Result.Exists)
             {
                 string email = task.Result.Value.ToString();
-                statusText.text = $"Email found: {email}\nSigning in...";
+                Debug.Log("Email found: " + email);
+                statusText.text = $"Signing in...";
 
                 SignInWithEmail(email, "password");
             }
             else
             {
-                statusText.text = "User not found in database.";
+                statusText.text = "Player not found.";
             }
         });
     }
@@ -197,7 +194,7 @@ public class QRAuthenticator : MonoBehaviour
             }
 
             FirebaseUser user = task.Result.User;
-            statusText.text = $"Signed in as: {user.UserId}";
+            statusText.text = $"Signed in as: {email}";
 
             LoadPlayerData(user.UserId);
         });

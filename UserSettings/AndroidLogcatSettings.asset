@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "R58M78EX66L",
+    "m_SelectedDeviceId": "R3CR404AK6D",
     "m_SelectedProcess": {
-        "deviceId": "R58M78EX66L",
+        "deviceId": "R3CR404AK6D",
         "name": "com.rokku.mathoria",
-        "processId": 12275,
+        "processId": 18115,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -90,6 +90,90 @@
             "deviceId": "R3CR404AK6D",
             "name": "com.rokku.mathoria",
             "processId": 9644,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 27709,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 5053,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 5760,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 6302,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 7054,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 7620,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 11513,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 13165,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 15981,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 17825,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 9309,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 11026,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 16805,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 18115,
             "exited": false
         },
         {
@@ -216,6 +300,12 @@
             "deviceId": "R58M78EX66L",
             "name": "com.rokku.mathoria",
             "processId": 12275,
+            "exited": false
+        },
+        {
+            "deviceId": "R58M78EX66L",
+            "name": "com.rokku.mathoria",
+            "processId": 12639,
             "exited": false
         }
     ],
