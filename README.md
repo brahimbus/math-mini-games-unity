@@ -258,34 +258,45 @@ In the future, we plan to introduce fingerprint authentication as an option for 
 
 ## Installation Instructions
 
-1. Clone or download the project files from the repository.
-   `git clone https://github.com/najlae01/math-test-mini-games.git`
+1. **Clone the Repository**  
+   Open a terminal and run:
+   ```bash
+   git clone https://github.com/najlae01/math-test-mini-games.git
+   ```
 
-2. **Create a Firebase Console Account:**
-   - Go to [Firebase Console](https://console.firebase.google.com/).
-   - Create a new project named "Math Test Game."
+2. **Create a Firebase Project**  
+   - Go to the [Firebase Console](https://console.firebase.google.com/).
+   - Create a new project (e.g., "Math Test Game").
 
-3. **Add Android and Web Apps:**
-   - In your Firebase project settings, add an Android app and a Web app.
+3. **Register Android and Web Apps**  
+   - In the Firebase project settings, add both an **Android app** and a **Web app**.
+   - For Android, make sure to add the correct package name and SHA certificate.
 
-4. **Enable Authentication:**
-   - Go to "Authentication" and enable Email sign-in method.
+4. **Enable Authentication Methods**  
+   - In the **Authentication** tab, enable the **Email/Password** sign-in method.
 
-5. **Configure Realtime Database:**
-   - Enable "Realtime Database" and set up the rules as needed.
+5. **Set Up Realtime Database**  
+   - In the **Realtime Database** section:
+     - Create a new database.
+     - Choose test mode or set rules as appropriate.
 
-6. **Download Configuration File:**
-   - In "Project Settings" under Android apps, download the `google-services.json` file.
-   - Add your Developer SHA Certificate Fingerprints for Android.
+6. **Download `google-services.json`**  
+   - From **Project Settings > General**, scroll to your Android app.
+   - Download the `google-services.json` file.
 
-7. **Organize Project Files:**
-   - Place `google-services.json` in the project directory.
-   - Delete the `Assets/Firebase` folder (it lacks some libraries that haven't been pushed due to git bandwidth limit).
-   - Download Firebase Unity sdk from https://firebase.google.com/docs/unity/setup and unzip it.
-   - Through Unity Editor Toolbar, Go to "Assets" then "Import New Asset..." and and import `FirebaseDatabase` and `FirebaseAuth` unity packages.
+7. **Import Firebase SDK into Unity**
+   - Delete the placeholder `Assets/Firebase` folder if it exists.
+   - Download the [Firebase Unity SDK](https://firebase.google.com/docs/unity/setup).
+   - Unzip and import **`FirebaseDatabase.unitypackage`** and **`FirebaseAuth.unitypackage`** via:
+     ```
+     Unity Editor → Assets → Import Package → Custom Package...
+     ```
 
-8. **Run the Game:**
-   - After a successful compilation, run the game.
+8. **Place `google-services.json`**  
+   - Copy it into the root of your Unity project (same level as `Assets/`).
+
+9. **Run the Game**  
+   - After a successful compilation, press **Play** in the Unity Editor or build for Android.
 
 ---
 
