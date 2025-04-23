@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "R3CR404AK6D",
+    "m_SelectedDeviceId": "R58M78EX66L",
     "m_SelectedProcess": {
-        "deviceId": "R3CR404AK6D",
+        "deviceId": "R58M78EX66L",
         "name": "com.rokku.mathoria",
-        "processId": 31378,
+        "processId": 26179,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -342,6 +342,12 @@
             "deviceId": "R58M78EX66L",
             "name": "com.rokku.mathoria",
             "processId": 12639,
+            "exited": false
+        },
+        {
+            "deviceId": "R58M78EX66L",
+            "name": "com.rokku.mathoria",
+            "processId": 26179,
             "exited": false
         }
     ],

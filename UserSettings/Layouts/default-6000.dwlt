@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1374
     height: 973
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Hierarchy
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 102
+  controlID: 98
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -405,7 +405,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/UI
+    - Assets/Scripts/UI
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -415,15 +415,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs/UI
+  - Assets/Scripts/UI
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\najlae\OneDrive\Documents\Unity Projects\mathoria
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 3eb80000
-    m_LastClickedID: 47166
+    scrollPos: {x: 0, y: 180}
+    m_SelectedIDs: 82b80000
+    m_LastClickedID: 47234
     m_ExpandedIDs: 0000000078b600007ab600007cb600007eb60000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -601,7 +601,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c897fcffda97fcff669bfcff8a9bfcff30b8fcff42b8fcffcabbfcffeabbfcff50e0fcff62e0fcffc0e3fcffe4e3fcff50fbfcff62fbfcffc0fefcffe4fefcffca1cfdffdc1cfdff3a20fdff5e20fdff8462fdff9662fdfff465fdff1866fdff820efeffbe2afeff0e5dfeff9a92feffd678ffffe878ffff407cffff647cffffc68effffd88effff2e92ffff4e92fffff8daffff0adbffff66deffff8adeffff14efffff26efffff82f2ffffa6f2fffffcfaffff06fbffff08fbfffff4ffffff90b50000a2b5000034ca00003cca00004eca000058ca00009ccc0000a4cc0000b6cc0000c0cc0000c8cc0000ded30000f8d300000cd4000076d6000080d6000092d600009cd60000a6d60000fe0901000a0a0100140a0100061201001c1201003c1201008e160100c4160100ba1a0100c01a0100d41a0100e01a0100ea1a0100f61a01000a1b0100c6200100d6200100e0200100f620010016210100
+      m_ExpandedIDs: c6faffffe4faffff08fbffff94b50000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

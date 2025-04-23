@@ -157,7 +157,7 @@ public class QRAuthenticator : MonoBehaviour
 
         statusText.text = "A moment please...";
 
-        DatabaseReference emailRef = dbReference.Child("players").Child(uid).Child("email");
+        DatabaseReference emailRef = dbReference.Child("users").Child(uid).Child("email");
 
         emailRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
@@ -204,7 +204,7 @@ public class QRAuthenticator : MonoBehaviour
     {
         statusText.text = "Welcome back! Loading your profile...";
 
-        DatabaseReference playerRef = dbReference.Child("players").Child(uid);
+        DatabaseReference playerRef = dbReference.Child("users").Child(uid);
         playerRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted && task.Result.Exists)

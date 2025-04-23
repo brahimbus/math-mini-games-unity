@@ -13,7 +13,7 @@ public class FirebasePlayerDataManager : MonoBehaviour
 
     private void InitializeDatabaseReference(string firebasePlayerId)
     {
-        playerRef = FirebaseDatabase.DefaultInstance.GetReference("players").Child(firebasePlayerId);
+        playerRef = FirebaseDatabase.DefaultInstance.GetReference("users").Child(firebasePlayerId);
         Debug.Log($"Initialized player reference for: {firebasePlayerId}");
     }
 
@@ -25,7 +25,8 @@ public class FirebasePlayerDataManager : MonoBehaviour
             InitializeDatabaseReference(firebasePlayerId);
 
             string json = JsonUtility.ToJson(profile);
-            playerRef.SetRawJsonValueAsync(json).ContinueWithOnMainThread(task => {
+            playerRef.Child("playerProfile").SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+            {
                 if (task.IsCompletedSuccessfully)
                 {
                     Debug.Log("Player data saved successfully!");
@@ -53,9 +54,9 @@ public class FirebasePlayerDataManager : MonoBehaviour
                 if (task.IsCompletedSuccessfully && task.Result.Exists)
                 {
                     string json = task.Result.GetRawJsonValue();
-                    PlayerProfile profile = JsonUtility.FromJson<PlayerProfile>(json);
+                    UserData user = JsonUtility.FromJson<UserData>(json);
                     Debug.Log("Player data loaded.");
-                    onComplete?.Invoke(profile);
+                    onComplete?.Invoke(user.playerProfile);
                 }
                 else
                 {
