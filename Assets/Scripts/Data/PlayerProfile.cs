@@ -8,10 +8,7 @@ public class PlayerProfile
     public int coins;
     public GradeLevel schoolGrade;
     public int mathLevel;
-    public int timeSpent;
     public int questionsSolved;
-    public float accuracy;
-    public int hintsUsed;
     public List<string> skillsToImprove;
     public RewardData rewardProfile;
     public Dictionary<string, GameProgressEntry> gameProgress;
