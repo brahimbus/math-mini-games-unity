@@ -261,7 +261,7 @@ In the future, we plan to introduce fingerprint authentication as an option for 
 1. **Clone the Repository**  
    Open a terminal and run:
    ```bash
-   git clone https://github.com/najlae01/math-test-mini-games.git
+   git clone https://github.com/najlae01/math-mini-games-unity.git
    ```
 
 2. **Create a Firebase Project**  
