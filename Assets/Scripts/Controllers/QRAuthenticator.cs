@@ -1,11 +1,9 @@
-using Firebase.Auth;
 using Firebase.Database;
 using UnityEngine.UI;
 using Firebase.Extensions;
 using System.Collections;
 using UnityEngine;
 using ZXing;
-using Firebase;
 using System.Linq;
 
 public class QRAuthenticator : MonoBehaviour
@@ -15,7 +13,6 @@ public class QRAuthenticator : MonoBehaviour
     public RawImage cameraFeed;  // UI element to display the camera feed
 
     private DatabaseReference dbReference;
-    private FirebaseAuth auth;
 
     private WebCamTexture backCameraTexture;
     private IBarcodeReader barcodeReader;
@@ -27,7 +24,6 @@ public class QRAuthenticator : MonoBehaviour
             if (FirebaseInitializer.Instance.IsFirebaseInitialized)
             {
                 dbReference = FirebaseInitializer.Instance.DbReference;
-                auth = FirebaseInitializer.Instance.Auth;
                 statusText.text = "Checking camera permissions...";
 
                 if (!Application.HasUserAuthorization(UserAuthorization.WebCam))
@@ -87,7 +83,7 @@ public class QRAuthenticator : MonoBehaviour
         backCameraTexture.Play();
 
         // Wait until the camera starts updating
-        StartCoroutine(AdjustCameraOrientation());
+        //StartCoroutine(AdjustCameraOrientation());
 
         barcodeReader = new BarcodeReader
         {
@@ -147,57 +143,49 @@ public class QRAuthenticator : MonoBehaviour
         }
     }
 
-    private void AuthenticateUser(string uid)
+    private void AuthenticateUser(string rawData)
     {
-        if (string.IsNullOrEmpty(uid))
+        statusText.text = "Verifying QR Code...";
+
+        try
         {
-            statusText.text = "Welcome, Guest!";
-            return;
+            var qrPayload = JsonUtility.FromJson<PlayerQRPayload>(rawData);
+            if (qrPayload == null || string.IsNullOrEmpty(qrPayload.uid) || string.IsNullOrEmpty(qrPayload.pin))
+            {
+                statusText.text = "Invalid QR Code format.";
+                return;
+            }
+
+            string uid = qrPayload.uid;
+            string enteredPin = qrPayload.pin;
+
+            var pinRef = dbReference.Child("users").Child(uid).Child("password");
+            pinRef.GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted && task.Result.Exists)
+                {
+                    string storedPin = task.Result.Value.ToString();
+
+                    if (enteredPin == storedPin)
+                    {
+                        statusText.text = "Authentication successful!";
+                        LoadPlayerData(uid);
+                    }
+                    else
+                    {
+                        statusText.text = "Invalid PIN.";
+                    }
+                }
+                else
+                {
+                    statusText.text = "Player not found.";
+                }
+            });
         }
-
-        statusText.text = "A moment please...";
-
-        DatabaseReference emailRef = dbReference.Child("users").Child(uid).Child("email");
-
-        emailRef.GetValueAsync().ContinueWithOnMainThread(task =>
+        catch
         {
-            if (task.IsFaulted || task.IsCanceled)
-            {
-                Debug.LogError("Database access failed.");
-                statusText.text = "Signing in failed";
-                return;
-            }
-            if (task.IsCompleted && task.Result.Exists)
-            {
-                string email = task.Result.Value.ToString();
-                Debug.Log("Email found: " + email);
-                statusText.text = $"Signing in...";
-
-                SignInWithEmail(email, "password");
-            }
-            else
-            {
-                statusText.text = "Player not found.";
-            }
-        });
-    }
-
-    private void SignInWithEmail(string email, string password)
-    {
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCanceled || task.IsFaulted)
-            {
-                statusText.text = "Failed to sign in.";
-                Debug.LogError("Authentication error: " + task.Exception);
-                return;
-            }
-
-            FirebaseUser user = task.Result.User;
-            statusText.text = $"Signed in as: {email}";
-
-            LoadPlayerData(user.UserId);
-        });
+            statusText.text = "QR Code data unreadable.";
+        }
     }
 
     private void LoadPlayerData(string uid)
