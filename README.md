@@ -287,7 +287,7 @@ In the future, we plan to introduce fingerprint authentication as an option for 
 7. **Import Firebase SDK into Unity**
    - Delete the placeholder `Assets/Firebase` folder if it exists.
    - Download the [Firebase Unity SDK](https://firebase.google.com/docs/unity/setup).
-   - Unzip and import **`FirebaseDatabase.unitypackage`** and **`FirebaseAuth.unitypackage`** via:
+   - Unzip and import **`FirebaseDatabase.unitypackage`** via:
      ```
      Unity Editor → Assets → Import Package → Custom Package...
      ```
