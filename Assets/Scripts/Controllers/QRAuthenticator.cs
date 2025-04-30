@@ -17,6 +17,10 @@ public class QRAuthenticator : MonoBehaviour
     private WebCamTexture backCameraTexture;
     private IBarcodeReader barcodeReader;
 
+    private readonly Rect uvRectFlipped = new(1f, 0f, -1f, 1f);
+    private readonly Rect uvRectNormal = new(0f, 0f, 1f, 1f);
+
+
     void Start()
     {
         FirebaseInitializer.Instance.InitializeFirebase(() =>
@@ -83,7 +87,7 @@ public class QRAuthenticator : MonoBehaviour
         backCameraTexture.Play();
 
         // Wait until the camera starts updating
-        //StartCoroutine(AdjustCameraOrientation());
+        StartCoroutine(AdjustCameraOrientation());
 
         barcodeReader = new BarcodeReader
         {
@@ -105,19 +109,25 @@ public class QRAuthenticator : MonoBehaviour
 
     private IEnumerator AdjustCameraOrientation()
     {
-        // Wait until we get some valid size
         yield return new WaitUntil(() => backCameraTexture.width > 100);
 
-        // Fix rotation
-        cameraFeed.rectTransform.localEulerAngles = new Vector3(0, 0, -backCameraTexture.videoRotationAngle);
+        float angle = backCameraTexture.videoRotationAngle;
+        if (!WebCamTexture.devices[0].isFrontFacing)
+        {
+            angle = -angle;
+        }
+        if (backCameraTexture.videoVerticallyMirrored)
+        {
+            angle += 180f;
+        }
 
-        // Fix mirroring
-        bool isFlipped = backCameraTexture.videoVerticallyMirrored;
-        cameraFeed.uvRect = isFlipped
-            ? new Rect(0, 1, 1, -1)
-            : new Rect(0, 0, 1, 1);
+        cameraFeed.rectTransform.localEulerAngles = new Vector3(0, 0, angle);
+
+        bool needsFlip = (backCameraTexture.videoVerticallyMirrored && !WebCamTexture.devices[0].isFrontFacing)
+                      || (!backCameraTexture.videoVerticallyMirrored && WebCamTexture.devices[0].isFrontFacing);
+
+        cameraFeed.uvRect = needsFlip ? uvRectFlipped : uvRectNormal;
     }
-
 
     private IEnumerator ScanQRCode()
     {

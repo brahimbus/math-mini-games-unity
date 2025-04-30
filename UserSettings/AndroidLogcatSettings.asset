@@ -3,7 +3,7 @@
     "m_SelectedProcess": {
         "deviceId": "R3CR404AK6D",
         "name": "com.rokku.mathoria",
-        "processId": 24042,
+        "processId": 8825,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -246,6 +246,18 @@
             "deviceId": "R3CR404AK6D",
             "name": "com.rokku.mathoria",
             "processId": 24042,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 4429,
+            "exited": false
+        },
+        {
+            "deviceId": "R3CR404AK6D",
+            "name": "com.rokku.mathoria",
+            "processId": 8825,
             "exited": false
         },
         {
