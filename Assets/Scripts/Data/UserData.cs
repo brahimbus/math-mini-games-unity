@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class UserData
 {
     public string uid;
-    public string email;
     public string role;
     public string firstName;
     public string lastName;
