@@ -61,37 +61,50 @@ A focused collection of three educational math mini-games designed to help stude
 
 ```
 Assets/Scripts/
-├── Core/
-│   ├── GameManager.cs         # Main game orchestration
-│   ├── AudioManager.cs        # Audio handling and TTS
-│   └── SceneLoader.cs        # Dynamic scene loading
+├── Animation/
+│   ├── VictoryScreenAnimation.cs   # Victory screen effects
+│   ├── SettingWedgetAnimation.cs   # Settings UI animations
+│   └── LossWedgetAnimation.cs      # Loss screen effects
 │
-├── Games/
-│   ├── NumberListening/
-│   │   ├── AudioGame.cs
-│   │   └── NumberReader.cs
-│   ├── NumberComparison/
-│   │   ├── ComparisonGame.cs
-│   │   └── SymbolDragger.cs
-│   └── NumberOrdering/
-│       ├── OrderingGame.cs
-│       └── NumberSorter.cs
+├── Controllers/
+│   ├── QRAuthenticator.cs          # QR code authentication
+│   └── GameSessionData.cs          # Game session management
 │
-└── UI/
-    ├── UIManager.cs          # UI state management
-    ├── AnimationController.cs # DOTween animations
-    └── FeedbackSystem.cs     # Visual feedback
+├── Data/
+│   ├── TestModels.cs               # Game data models
+│   ├── PlayerQRPayload.cs          # QR authentication data
+│   └── NumberAudioPair.cs          # Audio-number mapping
+│
+├── GameManager/
+│   ├── GameManager.cs              # Core game logic
+│   ├── TestInitializer.cs         # Game initialization
+│   └── FirebaseService.cs         # Firebase integration
+│
+├── MiniGame/
+│   ├── WhatNumbersDoYouHearScript.cs  # Number listening game
+│   ├── CompareNumbersScript.cs        # Number comparison game
+│   └── OrderNumbersScript.cs          # Number ordering game
+│
+├── UI/
+│   ├── GhostButtonController.cs    # Drag and drop effects
+│   ├── DigitSlot.cs               # Number input slots
+│   ├── KeyboardWidget.cs          # Virtual keyboard
+│   ├── KeyboardButton.cs          # Keyboard buttons
+│   └── AudioManager.cs            # Sound management
+│
+└── FirebaseInitializer.cs         # Firebase setup
 ```
 
 ### Scenes
 
 ```
-Assets/Scenes/
-├── SplashScreen.unity      # Entry point
-├── MainMenu.unity         # Game selection
-├── ListeningGame.unity    # Number listening game
-├── ComparisonGame.unity   # Number comparison game
-└── OrderingGame.unity     # Number ordering game
+Assets/Scenes/Game/
+├── SplashScreen.unity            # Entry point and game initialization
+├── GameManager.unity             # Core game management and session control
+├── what_number_do_you_hear.unity # Audio number recognition mini-game
+├── compare_numbers.unity         # Number comparison mini-game
+├── order_numbers.unity           # Number ordering mini-game
+└── End Scene.unity              # Game completion and results screen
 ```
 
 ## 🚀 Setup Instructions
