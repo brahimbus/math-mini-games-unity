@@ -5,24 +5,31 @@ using System.Collections;
 using UnityEngine;
 using ZXing;
 using System.Linq;
+using DG.Tweening;
 
 public class QRAuthenticator : MonoBehaviour
 {
     public GameObject authenticationPanel;
     public Text statusText;
-    public RawImage cameraFeed;  // UI element to display the camera feed
-
+    public RawImage cameraFeed;
+    public CanvasGroup transitionPanel;  // Add this UI element
+    
     private DatabaseReference dbReference;
-
     private WebCamTexture backCameraTexture;
     private IBarcodeReader barcodeReader;
-
     private readonly Rect uvRectFlipped = new(1f, 0f, -1f, 1f);
     private readonly Rect uvRectNormal = new(0f, 0f, 1f, 1f);
-
+    private float transitionDuration = 1f;
 
     void Start()
     {
+        // Ensure transition panel starts invisible
+        if (transitionPanel != null)
+        {
+            transitionPanel.alpha = 0f;
+            transitionPanel.gameObject.SetActive(false);
+        }
+
         FirebaseInitializer.Instance.InitializeFirebase(() =>
         {
             if (FirebaseInitializer.Instance.IsFirebaseInitialized)
@@ -60,33 +67,31 @@ public class QRAuthenticator : MonoBehaviour
     {
         statusText.text = "Initializing camera...";
 
-        string backCamName = WebCamTexture.devices.FirstOrDefault(device => !device.isFrontFacing).name;
-
-        if (string.IsNullOrEmpty(backCamName))
-        {
-            statusText.text = "No back camera found.";
-            return;
-        }
-
         if (WebCamTexture.devices.Length == 0)
         {
             statusText.text = "No cameras found on device.";
             return;
         }
 
-        backCameraTexture = new WebCamTexture(backCamName, 960, 960);
-        
+        string frontCamName = WebCamTexture.devices.FirstOrDefault(device => device.isFrontFacing).name;
+
+        if (string.IsNullOrEmpty(frontCamName))
+        {
+            statusText.text = "No front camera found.";
+            return;
+        }
+
+        backCameraTexture = new WebCamTexture(frontCamName, 960, 960);
         backCameraTexture.requestedFPS = 30;
         backCameraTexture.filterMode = FilterMode.Bilinear;
 
-        cameraFeed.texture = null; // Clear first
+        cameraFeed.texture = null;
         cameraFeed.texture = backCameraTexture;
         cameraFeed.material = null;
         cameraFeed.color = Color.white;
 
         backCameraTexture.Play();
 
-        // Wait until the camera starts updating
         StartCoroutine(AdjustCameraOrientation());
 
         barcodeReader = new BarcodeReader
@@ -99,10 +104,6 @@ public class QRAuthenticator : MonoBehaviour
                 PossibleFormats = new[] { BarcodeFormat.QR_CODE }
             }
         };
-
-        Debug.Log("Camera playing: " + backCameraTexture.isPlaying);
-        Debug.Log("Camera frame size: " + backCameraTexture.width + "x" + backCameraTexture.height);
-
 
         StartCoroutine(ScanQRCode());
     }
@@ -135,7 +136,6 @@ public class QRAuthenticator : MonoBehaviour
         {
             if (backCameraTexture.didUpdateThisFrame)
             {
-                // Convert the camera frame to a color array
                 Color32[] colors = backCameraTexture.GetPixels32();
                 var barcodeResult = barcodeReader.Decode(colors, backCameraTexture.width, backCameraTexture.height);
 
@@ -200,23 +200,77 @@ public class QRAuthenticator : MonoBehaviour
 
     private void LoadPlayerData(string uid)
     {
-        statusText.text = "Welcome back! Loading your profile...";
+        statusText.text = $"UID: {uid}\nLoading student data...";
 
-        DatabaseReference playerRef = dbReference.Child("users").Child(uid);
-        playerRef.GetValueAsync().ContinueWithOnMainThread(task =>
+        DatabaseReference userRef = dbReference.Child("users").Child(uid);
+        userRef.GetValueAsync().ContinueWithOnMainThread(async userTask =>
         {
-            if (task.IsCompleted && task.Result.Exists)
+            if (!userTask.IsCompleted || !userTask.Result.Exists)
             {
-                var playerData = task.Result;
-                Debug.Log("Player data loaded.");
+                statusText.text = "Could not load student data.";
+                return;
+            }
 
-                // Proceed to the main game scene
-                UnityEngine.SceneManagement.SceneManager.LoadScene("TestScene");
-            }
-            else
+            string studentGrade = userTask.Result.Child("schoolGrade").Value.ToString();
+            string studentName = $"{userTask.Result.Child("firstName").Value} {userTask.Result.Child("lastName").Value}";
+
+            DatabaseReference testsRef = dbReference.Child("tests");
+            testsRef.GetValueAsync().ContinueWithOnMainThread(testsTask =>
             {
-                statusText.text = "Failed to load player data.";
-            }
+                if (!testsTask.IsCompleted || !testsTask.Result.Exists)
+                {
+                    statusText.text = "Could not load tests.";
+                    return;
+                }
+
+                foreach (var testSnapshot in testsTask.Result.Children)
+                {
+                    if (testSnapshot.Child("grade").Value?.ToString() == studentGrade
+                        && testSnapshot.Child("status").Value?.ToString() == "PUBLISHED")
+                    {
+                        string testId = testSnapshot.Key;
+
+                        GameSessionData.TestId = testId;
+                        GameSessionData.StudentId = uid;
+                        GameSessionData.StudentName = studentName;
+
+                        statusText.text = "Authentication successful! Loading test scene...";
+                        Debug.Log($"Test ID: {testId}, Student ID: {uid}, Student Name: {studentName}");
+
+                        if (backCameraTexture != null && backCameraTexture.isPlaying)
+                        {
+                            backCameraTexture.Stop();
+                            backCameraTexture = null;
+                        }
+
+                        StartCoroutine(TransitionToNewScene("GameManager"));
+                        return;
+                    }
+                }
+
+                statusText.text = $"No available test found for grade {studentGrade}";
+            });
         });
+    }
+
+    private IEnumerator TransitionToNewScene(string sceneName)
+{
+    transitionPanel.alpha = 0f;
+    transitionPanel.gameObject.SetActive(true);
+
+    // Create a tween and wait for completion using coroutine instead of await
+    yield return transitionPanel.DOFade(1f, transitionDuration)
+        .SetEase(Ease.InOutQuad)
+        .WaitForCompletion();
+    
+    UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+}
+
+    private void OnDestroy()
+    {
+        if (backCameraTexture != null && backCameraTexture.isPlaying)
+        {
+            backCameraTexture.Stop();
+        }
     }
 }

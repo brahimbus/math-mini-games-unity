@@ -33,6 +33,11 @@ public class GhostButtonController : MonoBehaviour
         rect.position = screenPosition;
     }
 
+    public void SetAlpha()
+    {
+        canvasGroup.alpha = 0.5f;
+        CurrentSymbol = "";
+    }
     public void Hide()
     {
         canvasGroup.alpha = 0f;

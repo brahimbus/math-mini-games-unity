@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 public class DigitSlot : MonoBehaviour, IDropHandler
 {
     public Text slotText;
+    public string symbol;
 
     void Start()
     {
@@ -14,14 +15,13 @@ public class DigitSlot : MonoBehaviour, IDropHandler
             slotText.text = "";
     }
 
-    public void OnDrop(PointerEventData eventData)
+    public virtual void OnDrop(PointerEventData eventData)
     {
         Debug.Log("Drop detected on: " + gameObject.name);
 
-        string symbol = GhostButtonController.Instance.CurrentSymbol;
+        symbol = GhostButtonController.Instance.CurrentSymbol;
         if (!string.IsNullOrEmpty(symbol))
         {
-            slotText.text = symbol;
             Debug.Log("Symbol Set: " + symbol);
         }
     }

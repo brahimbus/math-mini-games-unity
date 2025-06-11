@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class TarlManager : MonoBehaviour
 {
-    public GradeLevel FinalGradeLevel;
-    public PlayerManager PlayerStateRef;
-
+   /* public int FinalGradeLevel;
     public Dictionary<GradeLevel, MiniGameList> MiniGames = new Dictionary<GradeLevel, MiniGameList>();
 
     public int CurrentMiniGameIndex = -1;
@@ -33,28 +30,20 @@ public class TarlManager : MonoBehaviour
 
     void Initialize()
     {
-        PlayerStateRef = PlayerManager.Instance;
-        if (PlayerStateRef != null)
-        {
-            FinalGradeLevel = PlayerStateRef.playerProfile.schoolGrade;
-            Debug.Log("PlayerStateRef successfully initialized.");
-        }
-        else
-        {
-            Debug.LogError("Failed to get PlayerState.");
-        }
+        FinalGradeLevel = 2;
+        Debug.Log("Profile successfully initialized. " + FinalGradeLevel);
 
         InitializeMiniGames();
     }
 
     void InitializeMiniGames()
     {
-        // Example: Initialize mini-games for each grade level
+        // Grade 1 Mini Games
         MiniGameCustomization gradeOneCustomization = new MiniGameCustomization
         {
             numberOfQuestions = 4,
-            numberRange = 2,
-            numberOfOptions = 4,
+            numberRange = 10,
+            numberOfOptions = 3,
             duration = 30.0f,
             timeLimit = 10.0f
         };
@@ -65,63 +54,76 @@ public class TarlManager : MonoBehaviour
             completed = false 
         };
 
-        // Grade 1 Mini Games
         MiniGameList gradeOneMiniGames = new MiniGameList
         {
             miniGamesWidgets = new List<MathoriaMiniGameWidget>
             {
-                MiniGameFactory.Get().CreateMiniGame(MiniGameName.FindPreviousNextNumber, gradeOneCustomization, gradeOneSuccessCriteria),
-                MiniGameFactory.Get().CreateMiniGame(MiniGameName.TapMatchingPairs, gradeOneCustomization, gradeOneSuccessCriteria)
-                // Add more mini-games as needed
+                MiniGameFactory.Get().CreateMiniGame(MiniGameName.WhatNumberDoYouHear, gradeOneCustomization, gradeOneSuccessCriteria)
             }
         };
 
         MiniGames[GradeLevel.One] = gradeOneMiniGames;
 
-        // Repeat the process for other grades...
-    }
-
-    public MiniGameCustomization GetDefaultCustomizationSettings(GradeLevel gradeLevel, MiniGameName miniGameName)
-    {
-        MiniGameCustomization customization = new MiniGameCustomization();
-
-        switch (gradeLevel)
+        // Grade 2 Mini Games
+        MiniGameCustomization gradeTwoCustomization = new MiniGameCustomization
         {
-            case GradeLevel.One:
-                customization.numberRange = 10;
-                customization.numberOfQuestions = 4;
-                customization.numberOfOptions = 2;
-                customization.timeLimit = -1;
-                customization.duration = -1;
-                // Add operations and other game settings for Grade 1
-                break;
-            case GradeLevel.Two:
-                customization.numberRange = 100;
-                customization.numberOfQuestions = 7;
-                customization.numberOfOptions = 3;
-                break;
-                // Add other grade cases here...
-        }
+            numberOfQuestions = 7,
+            numberRange = 100,
+            numberOfOptions = 4,
+            duration = 45.0f,
+            timeLimit = 15.0f
+        };
 
-        switch (miniGameName)
+        MiniGameSuccessCriteria gradeTwoSuccessCriteria = new MiniGameSuccessCriteria
         {
-            case MiniGameName.FindPreviousNextNumber:
-                customization.numberOfOptions = 0; // No options needed
-                break;
-            case MiniGameName.TapMatchingPairs:
-                customization.numberOfOptions = 4; // Number of pairs
-                break;
-                // Add other mini-game specific customizations here...
-        }
+            requiredCorrectAnswers = 5,
+            completed = false
+        };
 
-        return customization;
+        MiniGameList gradeTwoMiniGames = new MiniGameList
+        {
+            miniGamesWidgets = new List<MathoriaMiniGameWidget>
+            {
+                MiniGameFactory.Get().CreateMiniGame(MiniGameName.WhatNumberDoYouHear, gradeTwoCustomization, gradeTwoSuccessCriteria)
+            }
+        };
+
+        MiniGames[GradeLevel.Two] = gradeTwoMiniGames;
+
+        // Grade 3 Mini Games
+        MiniGameCustomization gradeThreeCustomization = new MiniGameCustomization
+        {
+            numberOfQuestions = 10,
+            numberRange = 1000,
+            numberOfOptions = 5,
+            duration = 60.0f,
+            timeLimit = 20.0f
+        };
+
+        MiniGameSuccessCriteria gradeThreeSuccessCriteria = new MiniGameSuccessCriteria
+        {
+            requiredCorrectAnswers = 7,
+            completed = false
+        };
+
+        MiniGameList gradeThreeMiniGames = new MiniGameList
+        {
+            miniGamesWidgets = new List<MathoriaMiniGameWidget>
+            {
+                MiniGameFactory.Get().CreateMiniGame(MiniGameName.WhatNumberDoYouHear, gradeThreeCustomization, gradeThreeSuccessCriteria)
+            }
+        };
+
+        MiniGames[GradeLevel.Three] = gradeThreeMiniGames;
     }
+}
+
 
     public void StartTest()
     {
-        if (PlayerStateRef == null)
+        if (Profile == null)
         {
-            Debug.LogError("StartTest() failed: PlayerStateRef is null!");
+            Debug.LogError("StartTest() failed: Profile is null!");
             return;
         }
 
@@ -131,7 +133,7 @@ public class TarlManager : MonoBehaviour
 
     public bool CanStartTest()
     {
-        return PlayerStateRef != null && PlayerStateRef.playerProfile != null;
+        return Profile != null && Profile.playerProfile != null;
     }
 
     public bool EvaluateMiniGameSuccess(GameObject miniGame)
@@ -167,5 +169,5 @@ public class TarlManager : MonoBehaviour
     {
         // Logic to start the next mini-game based on current index or progression
         return null; // Placeholder return
-    }
+    }*/
 }

@@ -1,5 +1,4 @@
 using Firebase;
-using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
@@ -11,7 +10,6 @@ public class FirebaseInitializer : MonoBehaviour
     private static FirebaseInitializer _instance;
     public static FirebaseInitializer Instance => _instance;
 
-    public FirebaseAuth Auth { get; private set; }
     public DatabaseReference DbReference { get; private set; }
     public bool IsFirebaseInitialized { get; private set; }
 
@@ -26,7 +24,7 @@ public class FirebaseInitializer : MonoBehaviour
         }
 
         _instance = this;
-        DontDestroyOnLoad(gameObject);
+        // Removed DontDestroyOnLoad to make it destroyable
     }
 
     public void InitializeFirebase(Action onInitialized)
@@ -46,7 +44,6 @@ public class FirebaseInitializer : MonoBehaviour
         {
             if (task.Result == DependencyStatus.Available)
             {
-                Auth = FirebaseAuth.DefaultInstance;
                 DbReference = FirebaseDatabase.DefaultInstance.RootReference;
                 IsFirebaseInitialized = true;
                 Debug.Log("Firebase initialized.");

@@ -166,7 +166,6 @@ GameObject:
   - component: {fileID: 4613377520603811057}
   - component: {fileID: 6383786132239429843}
   - component: {fileID: 7950942646363496009}
-  - component: {fileID: 7236166605818234822}
   m_Layer: 5
   m_Name: DigitSlot
   m_TagString: Untagged
@@ -232,19 +231,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7236166605818234822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6909013411052952432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60158a349828eb149b2c67fd4bae9c61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotText: {fileID: 8679107641142837088}
 --- !u!1 &7256199923117221589
 GameObject:
   m_ObjectHideFlags: 0

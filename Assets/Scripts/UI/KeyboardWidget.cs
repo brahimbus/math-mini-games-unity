@@ -12,7 +12,20 @@ public class KeyboardWidget : MonoBehaviour
     {
         PopulateKeyboard();
     }
-
+    public void UpdateSymbols(string[] newSymbols)
+    {
+        symbols = newSymbols;
+        ClearKeyboard();
+        PopulateKeyboard();
+    }
+    private void ClearKeyboard()
+    {
+        // Destroy all existing buttons
+        foreach (Transform child in keyboardGrid.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
     // Populate the grid with buttons
     void PopulateKeyboard()
     {
@@ -20,14 +33,8 @@ public class KeyboardWidget : MonoBehaviour
 
         if (symbols == null || symbols.Length == 0)
         {
-            // Default symbols if none are provided
-            symbols = new string[] {
-                "1", "2", "3",
-                "4", "5", "6",
-                "7", "8", "9",
-                "0", ".", "÷",
-                "×", "-", "+"
-            };
+            Debug.LogWarning("No symbols provided for the keyboard.");
+            return;
         }
 
         foreach (string symbol in symbols)
