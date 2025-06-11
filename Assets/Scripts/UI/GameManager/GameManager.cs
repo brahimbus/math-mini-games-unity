@@ -276,15 +276,26 @@ public class GameManager : MonoBehaviour
             correctAnswers = correctAnswers,
             wrongAnswers = wrongAnswers,
             completionTime = completionTime
-        };
-
-        try
+        };        try
         {
             await FirebaseService.Instance.SaveTestResult(result);
             Debug.Log("Test result saved successfully!");
             
             // Load the End Scene after saving results
-            SceneManager.LoadScene("End Scene");
+            var asyncOperation = SceneManager.LoadSceneAsync("End Scene");
+            asyncOperation.allowSceneActivation = false;
+
+            // Wait until the scene is fully loaded
+            while (asyncOperation.progress < 0.9f)
+            {
+                await Task.Delay(10);
+            }
+
+            // Activate the scene
+            asyncOperation.allowSceneActivation = true;
+
+            // Wait a moment for the scene to initialize
+            await Task.Delay(500);
             
             // Fade out transition after end scene is loaded
             await FadeTransition(false);
