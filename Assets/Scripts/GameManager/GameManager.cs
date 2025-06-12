@@ -130,15 +130,16 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError($"Failed to initialize test: {e.Message}");
         }
-    }
-
-    private void StartTestFlow()
+    }    private void StartTestFlow()
     {
         Score = 0;
         correctAnswers = 0;
         wrongAnswers = 0;
         completeTime = 0;
         currentMiniGameIndex = 0;
+        
+        // Start background music when test begins
+        AudioManager.Instance.PlayBackgroundMusic();
         
         Debug.Log($"Starting test: {testData.testName}");
         LoadNextMiniGame();

@@ -3,40 +3,70 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance { get; private set; }
+
     private AudioSource audioSource;
+    private AudioSource backgroundMusicSource; // Separate source for background music
 
     // List of key → AudioClip pairs editable in Inspector
     public List<NumberAudioPair> numberClips;
+
+    [Header("Game Sound Effects")]
+    public AudioClip winSound;
+
+    public AudioClip loseSound;
+    public AudioClip correctSound;
+    public AudioClip falseSound;
+    public AudioClip backgroundMusic;
 
     // Optional: runtime Dictionary for faster lookup
     private Dictionary<string, AudioClip> numberClipMap;
 
     void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
+        // Implement singleton pattern
+        if (Instance == null)
         {
-            Debug.LogError("AudioSource component missing on AudioManager!");
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
-
-        if (numberClips == null || numberClips.Count == 0)
-        {
-            Debug.LogError("Number clips list is empty or not set!");
-        }
-
-        // Build dictionary for fast lookup
-        numberClipMap = new Dictionary<string, AudioClip>();
-        foreach (var pair in numberClips)
-        {
-            if (!numberClipMap.ContainsKey(pair.key))
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            
+            // Initialize audio sources
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
             {
-                numberClipMap.Add(pair.key, pair.clip);
+                Debug.LogError("AudioSource component missing on AudioManager!");
+                audioSource = gameObject.AddComponent<AudioSource>();
             }
-            else
+
+            // Setup background music source
+            backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+            backgroundMusicSource.loop = true;
+            backgroundMusicSource.playOnAwake = false;
+
+            if (numberClips == null || numberClips.Count == 0)
             {
-                Debug.LogWarning($"Duplicate key found in NumberAudioPair list: {pair.key}. Ignoring duplicate.");
+                Debug.LogWarning("Number clips list is empty or not set!");
             }
+
+            // Build dictionary for fast lookup
+            numberClipMap = new Dictionary<string, AudioClip>();
+            foreach (var pair in numberClips)
+            {
+                if (!numberClipMap.ContainsKey(pair.key))
+                {
+                    numberClipMap.Add(pair.key, pair.clip);
+                }
+                else
+                {
+                    Debug.LogWarning($"Duplicate key found in NumberAudioPair list: {pair.key}. Ignoring duplicate.");
+                }
+            }
+        }
+        else
+        {
+            // If an instance already exists, destroy this one
+            Destroy(gameObject);
+            return;
         }
     }
 
@@ -88,5 +118,81 @@ public class AudioManager : MonoBehaviour
         }
 
         audioSource.PlayOneShot(clip);
+    }
+
+    public void PlayWinSound()
+    {
+        if (winSound != null)
+        {
+            audioSource.PlayOneShot(winSound);
+        }
+        else
+        {
+            Debug.LogWarning("Win sound clip is not assigned!");
+        }
+    }
+
+    public void PlayLoseSound()
+    {
+        if (loseSound != null)
+        {
+            audioSource.PlayOneShot(loseSound);
+        }
+        else
+        {
+            Debug.LogWarning("Lose sound clip is not assigned!");
+        }
+    }
+
+    public void PlayCorrectSound()
+    {
+        if (correctSound != null)
+        {
+            audioSource.PlayOneShot(correctSound);
+        }
+        else
+        {
+            Debug.LogWarning("Correct sound clip is not assigned!");
+        }
+    }
+
+    public void PlayFalseSound()
+    {
+        if (falseSound != null)
+        {
+            audioSource.PlayOneShot(falseSound);
+        }
+        else
+        {
+            Debug.LogWarning("False sound clip is not assigned!");
+        }
+    }
+
+    public void PlayBackgroundMusic()
+    {
+        if (backgroundMusic != null)
+        {
+            backgroundMusicSource.clip = backgroundMusic;
+            backgroundMusicSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Background music clip is not assigned!");
+        }
+    }
+
+    public void StopBackgroundMusic()
+    {
+        backgroundMusicSource.Stop();
+    }
+
+    public void SetBackgroundMusicVolume(float volume)
+    {
+        backgroundMusicSource.volume = Mathf.Clamp01(volume);
+    }
+
+    public void SetSoundEffectsVolume(float volume)
+    {
+        audioSource.volume = Mathf.Clamp01(volume);
     }
 }

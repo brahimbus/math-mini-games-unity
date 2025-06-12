@@ -214,8 +214,6 @@ public class NumberSlotChecker1 : DigitSlot
                     .SetEase(Ease.OutFlash, 2, 0))
                     .Append(starImages[i].DOColor(Color.white, starAnimDuration * 0.5f));
 
-                // Play emoji first
-                PlayRandomCorrectEmoji();
                 
                 // Play star particles with delay
                 PlayParticleEffect(bigStarFilledParticle, 2f); // 1 second delay
@@ -303,6 +301,7 @@ public class NumberSlotChecker1 : DigitSlot
         UpdateStarProgress();
         
         PlayRandomCorrectEmoji();
+        AudioManager.Instance.PlayCorrectSound();
         
         ShowMessage("Correct!");
         if (ScoreText != null)
@@ -318,6 +317,7 @@ public class NumberSlotChecker1 : DigitSlot
         wrongAnswers++;
         
         PlayParticleEffect(heartBreakParticle);
+        AudioManager.Instance.PlayFalseSound();
         
         UpdateLivesDisplay();
         ShowMessage("Wrong answer!");

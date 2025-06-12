@@ -13,18 +13,15 @@ public class ButtonAnimation : MonoBehaviour
     [SerializeField] private Button closeButton;
 
     [Header("Volume Controls")]
-    [SerializeField] private RectTransform soundVolumeKnob;
-    [SerializeField] private RectTransform musicVolumeKnob;
+    [SerializeField] private Slider soundVolumeSlider;
+    [SerializeField] private Slider musicVolumeSlider;
 
     private Vector3 hidePosition = new Vector3(1719, -110.800003f, 0);
     private Vector3 showPosition = new Vector3(-35, -110.800003f, 0);
     private float animationDuration = 0.5f;
-    
-    // Volume control variables
-    private float minX = -170.88f;
-    private float maxX = 175f;
-    private bool isDraggingSound = false;
-    private bool isDraggingMusic = false;
+
+    private const string SOUND_VOLUME_KEY = "SoundVolume";
+    private const string MUSIC_VOLUME_KEY = "MusicVolume";
 
     void Start()
     {
@@ -44,14 +41,16 @@ public class ButtonAnimation : MonoBehaviour
             settingsWidget.transform.localPosition = hidePosition;
         }
 
-        // Initialize volume knob positions
-        if (soundVolumeKnob != null)
+        // Setup volume sliders
+        if (soundVolumeSlider != null)
         {
-            SetInitialVolume(soundVolumeKnob);
+            soundVolumeSlider.onValueChanged.AddListener(OnSoundVolumeChanged);
+            LoadAndSetVolume(soundVolumeSlider, true);
         }
-        if (musicVolumeKnob != null)
+        if (musicVolumeSlider != null)
         {
-            SetInitialVolume(musicVolumeKnob);
+            musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+            LoadAndSetVolume(musicVolumeSlider, false);
         }
     }
 
@@ -96,61 +95,47 @@ public class ButtonAnimation : MonoBehaviour
         }
     }
 
-    public void OnSoundVolumeBeginDrag()
+    private void OnSoundVolumeChanged(float value)
     {
-        isDraggingSound = true;
-    }
-
-    public void OnMusicVolumeBeginDrag()
-    {
-        isDraggingMusic = true;
-    }
-
-    public void OnVolumeEndDrag()
-    {
-        isDraggingSound = false;
-        isDraggingMusic = false;
-    }
-
-    private void Update()
-    {
-        if (isDraggingSound)
+        if (AudioManager.Instance != null)
         {
-            UpdateVolumeKnob(soundVolumeKnob);
-        }
-        if (isDraggingMusic)
-        {
-            UpdateVolumeKnob(musicVolumeKnob);
+            AudioManager.Instance.SetSoundEffectsVolume(value);
+            PlayerPrefs.SetFloat(SOUND_VOLUME_KEY, value);
+            PlayerPrefs.Save();
+            Debug.Log($"Sound Effects Volume Changed and Saved: {value}");
         }
     }
 
-    private void UpdateVolumeKnob(RectTransform knob)
+    private void OnMusicVolumeChanged(float value)
     {
-        if (knob == null) return;
-
-        Vector2 mousePos = Input.mousePosition;
-        Vector2 localPoint;
-
-        RectTransform parentRect = knob.parent as RectTransform;
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, mousePos, Camera.main, out localPoint))
+        if (AudioManager.Instance != null)
         {
-            float newX = Mathf.Clamp(localPoint.x, minX, maxX);
-            Vector2 currentPos = knob.anchoredPosition;
-            currentPos.x = newX;
-            knob.anchoredPosition = currentPos;
+            AudioManager.Instance.SetBackgroundMusicVolume(value);
+            PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, value);
+            PlayerPrefs.Save();
+            Debug.Log($"Background Music Volume Changed and Saved: {value}");
+        }
+    }
 
-            float volumeValue = Mathf.InverseLerp(minX, maxX, newX);
-            if (knob == soundVolumeKnob)
+    private void LoadAndSetVolume(Slider slider, bool isSound)
+    {
+        slider.minValue = 0f;
+        slider.maxValue = 1f;
+
+        string key = isSound ? SOUND_VOLUME_KEY : MUSIC_VOLUME_KEY;
+        float savedVolume = PlayerPrefs.GetFloat(key, 1f); // Default to full volume if not set
+        slider.value = savedVolume;
+
+        if (AudioManager.Instance != null)
+        {
+            if (isSound)
             {
-                AudioListener.volume = volumeValue;
+                AudioManager.Instance.SetSoundEffectsVolume(savedVolume);
+            }
+            else
+            {
+                AudioManager.Instance.SetBackgroundMusicVolume(savedVolume);
             }
         }
-    }
-
-    private void SetInitialVolume(RectTransform knob)
-    {
-        Vector2 pos = knob.anchoredPosition;
-        pos.x = minX;
-        knob.anchoredPosition = pos;
     }
 }

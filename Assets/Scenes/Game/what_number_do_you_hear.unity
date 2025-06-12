@@ -2914,7 +2914,7 @@ GameObject:
   - component: {fileID: 840823328}
   - component: {fileID: 840823329}
   m_Layer: 0
-  m_Name: Slider
+  m_Name: MusicSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3139,7 +3139,6 @@ MonoBehaviour:
   sparkleYellow2Particle: {fileID: 893592334}
   sparkleYellow3Particle: {fileID: 2138413322}
   heartBreakParticle: {fileID: 1798536096}
-  audioManager: {fileID: 1572929009}
 --- !u!225 &985395306
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3591,8 +3590,8 @@ MonoBehaviour:
   settingsWidget: {fileID: 615702729}
   backgroundAlphaSetting: {fileID: 446715223}
   closeButton: {fileID: 467915780}
-  soundVolumeKnob: {fileID: 0}
-  musicVolumeKnob: {fileID: 0}
+  soundVolumeSlider: {fileID: 2105930058}
+  musicVolumeSlider: {fileID: 840823329}
 --- !u!1 &1117857276
 GameObject:
   m_ObjectHideFlags: 0
@@ -3931,7 +3930,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 336
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -4535,73 +4534,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4292339675273236, guid: 84f99f9a0f1238e418427366cb763c22, type: 3}
   m_PrefabInstance: {fileID: 1414438630}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1572929006
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1572929008}
-  - component: {fileID: 1572929009}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1572929008
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572929006}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 720, y: 1544, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1572929009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572929006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53029decb1d0d48478f29e6d3edc68d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numberClips:
-  - key: 0
-    clip: {fileID: 8300000, guid: 3f367647e1852bd448b1e1c5b08cda1c, type: 3}
-  - key: 1
-    clip: {fileID: 8300000, guid: 727f32161dbbf5441a2876fadb411a14, type: 3}
-  - key: 2
-    clip: {fileID: 8300000, guid: 24a7c4c95476edb48b719e79979b03ad, type: 3}
-  - key: 3
-    clip: {fileID: 8300000, guid: 8a6f8c5939da4a841bd6edde9d0d0d03, type: 3}
-  - key: 4
-    clip: {fileID: 8300000, guid: d177c6f99b6b44a46806da03bc617c59, type: 3}
-  - key: 5
-    clip: {fileID: 8300000, guid: 648b1b8a529cfcc44a5af22f90613e06, type: 3}
-  - key: 6
-    clip: {fileID: 8300000, guid: 9254661f78b8d3f448c484b466b04fc6, type: 3}
-  - key: 7
-    clip: {fileID: 8300000, guid: f3cac48c9efef6d4ca9114d8213309fe, type: 3}
-  - key: 8
-    clip: {fileID: 8300000, guid: c877d8e36df5680429cabcd9567c4698, type: 3}
-  - key: 9
-    clip: {fileID: 8300000, guid: aab5c93cb8556c347b0dc7f1abe9b184, type: 3}
-  - key: 10
-    clip: {fileID: 8300000, guid: 6a57dcfa61d178340bf3806cb7d11e02, type: 3}
 --- !u!1 &1582358007
 GameObject:
   m_ObjectHideFlags: 0
@@ -5924,7 +5856,7 @@ GameObject:
   - component: {fileID: 2105930057}
   - component: {fileID: 2105930058}
   m_Layer: 0
-  m_Name: Slider
+  m_Name: SoundSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6420,6 +6352,5 @@ SceneRoots:
   - {fileID: 1582358011}
   - {fileID: 1749060340}
   - {fileID: 356017253}
-  - {fileID: 1572929008}
   - {fileID: 2012589929}
   - {fileID: 1800999852}

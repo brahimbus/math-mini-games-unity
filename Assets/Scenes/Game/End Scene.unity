@@ -904,15 +904,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198429399275532074, guid: c3fb0ba9daefe554d8a87d83f3bf272b, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.47843134
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198429399275532074, guid: c3fb0ba9daefe554d8a87d83f3bf272b, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.84584
+      value: 0.09803921
       objectReference: {fileID: 0}
     - target: {fileID: 198429399275532074, guid: c3fb0ba9daefe554d8a87d83f3bf272b, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 1
+      value: 0.6418658
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1052,7 +1052,6 @@ GameObject:
   m_Component:
   - component: {fileID: 569181999}
   - component: {fileID: 569182000}
-  - component: {fileID: 569182001}
   m_Layer: 0
   m_Name: Loss
   m_TagString: Untagged
@@ -1098,8 +1097,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08d69a800143967438413d195066de65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StarsToShow: 0
-  score: 0
+  StarsToShow: 2
+  score: 133
   ribbon: {fileID: 1112389470}
   LossSkull: {fileID: 1254261553}
   star1Empty: {fileID: 1018372068}
@@ -1119,40 +1118,6 @@ MonoBehaviour:
   cardglowType03: {fileID: 508435633}
   backgroundAlphaSetting: {fileID: 0}
   FirstGameview: {fileID: 0}
---- !u!114 &569182001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569181998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d65f2af048cbe2845bce28e36d26c3dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StarsToShow: 0
-  score: 0
-  ribbon: {fileID: 0}
-  LossSkull: {fileID: 0}
-  star1Empty: {fileID: 0}
-  star1Full: {fileID: 0}
-  star2Empty: {fileID: 0}
-  star2Full: {fileID: 0}
-  star3Empty: {fileID: 0}
-  star3Full: {fileID: 0}
-  scoretext: {fileID: 0}
-  scoreNumber: {fileID: 0}
-  coinIcon: {fileID: 0}
-  coinText: {fileID: 0}
-  sparkleYellow1: {fileID: 0}
-  sparkleYellow2: {fileID: 0}
-  sparkleYellow3: {fileID: 0}
-  shineYellow: {fileID: 0}
-  cardglowType03: {fileID: 0}
-  backgroundAlphaSetting: {fileID: 0}
-  FirstGameview: {fileID: 0}
-  scoreNumberText: {fileID: 0}
 --- !u!1 &594943925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1278,6 @@ GameObject:
   m_Component:
   - component: {fileID: 656096419}
   - component: {fileID: 656096418}
-  - component: {fileID: 656096420}
   m_Layer: 0
   m_Name: Screen Victory
   m_TagString: Untagged
@@ -1384,42 +1348,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 2561}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &656096420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 656096417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd2e6b023c740b64299f8d4db8828ee7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StarsToShow: 0
-  ribbon: {fileID: 0}
-  victoryHornsLeft: {fileID: 0}
-  victoryHornsRight: {fileID: 0}
-  victoryCup: {fileID: 0}
-  star1Empty: {fileID: 0}
-  star1Full: {fileID: 0}
-  star2Empty: {fileID: 0}
-  star2Full: {fileID: 0}
-  star3Empty: {fileID: 0}
-  star3Full: {fileID: 0}
-  sparkleYellow1: {fileID: 0}
-  sparkleYellow2: {fileID: 0}
-  sparkleYellow3: {fileID: 0}
-  confettiBlastRainbow: {fileID: 0}
-  shineYellow: {fileID: 0}
-  cardglowType03: {fileID: 0}
-  scoretext: {fileID: 0}
-  scoreNumber: {fileID: 0}
-  coinIcon: {fileID: 0}
-  coinText: {fileID: 0}
-  backgroundAlphaSetting: {fileID: 0}
-  FirstGameview: {fileID: 0}
-  scoreNumberText: {fileID: 0}
 --- !u!1 &694343515
 GameObject:
   m_ObjectHideFlags: 0
@@ -3365,6 +3293,10 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5559816544013177688, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 0.11764706
+      objectReference: {fileID: 0}
     - target: {fileID: 7036406418239652515, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
       propertyPath: m_SortingOrder
       value: -3
@@ -3387,7 +3319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7938384439400024400, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.53859085
+      value: 0.59636855
       objectReference: {fileID: 0}
     - target: {fileID: 7938384439400024401, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
       propertyPath: m_SortingOrder
@@ -3455,7 +3387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7938384439505921122, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7938384439505921127, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
       propertyPath: playOnAwake
@@ -3475,10 +3407,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8291675544055480729, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7938384439505921122, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
+    - {fileID: 8291675544055480729, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
+    - {fileID: 7938384439966319056, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6e54acc881a03c4a9719b161a25a3e3, type: 3}

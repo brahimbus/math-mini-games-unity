@@ -56,7 +56,7 @@ public class LossWedget : MonoBehaviour
 
     if (scoreNumberText != null)
     {
-        scoreNumberText.text = GameManager.Instance.Score.ToString();
+            scoreNumberText.text = GameManager.Instance.Score.ToString();
     }
     else
     {
@@ -101,10 +101,15 @@ public class LossWedget : MonoBehaviour
         {
             log.AppendLine($"WARNING: {elementName} is null!");
         }
-    }
-
-    void InitializeElements()
+    }    void InitializeElements()
     {
+        // Initialize particle systems
+        if (sparkleYellow1 != null) sparkleYellow1.Stop();
+        if (sparkleYellow2 != null) sparkleYellow2.Stop();
+        if (sparkleYellow3 != null) sparkleYellow3.Stop();
+        if (shineYellow != null) shineYellow.Stop();
+        if (cardglowType03 != null) cardglowType03.Stop();
+
         transform.localPosition = new Vector3(0f, 2827f, 0f);
 
         SetZeroScale(ribbon);
@@ -137,46 +142,63 @@ public class LossWedget : MonoBehaviour
         {
             obj.transform.localScale = Vector3.zero;
         }
-    }    void AnimateVictoryScreen()
+    }   
+     void AnimateLoss()
     {
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(transform.DOLocalMove(new Vector3(0f, -52f, 0f), 1f).SetEase(Ease.OutQuad));
+        sequence.Append(transform.DOLocalMove(new Vector3(0f, -52f, 0f), 1.0f).SetEase(Ease.OutQuad));
 
-        // Play initial glow effect
-        if (cardglowType03 != null)
-        {
-            cardglowType03.gameObject.SetActive(true);
-            cardglowType03.Play();
-        }
+    
+        // Play initial effects
+if (cardglowType03 != null)
+{
+    cardglowType03.startColor = new Color(0.643f, 0.098f, 1f); // #A419FF
+    cardglowType03.gameObject.SetActive(true);
+    cardglowType03.Play();
+}
+       sequence.Append(AnimateToOriginal(ribbon, 0.5f));
+sequence.Append(AnimateToOriginal(LossSkull, 0.5f));
 
-        sequence.Append(AnimateToOriginal(ribbon, 0.5f));
-        sequence.Append(AnimateToOriginal(LossSkull, 0.5f))
-            .OnComplete(() => {
-                if (cardglowType03) cardglowType03.Play();
-                if (shineYellow) shineYellow.Play();
-            });
+// Play lose sound here
+sequence.AppendCallback(() => {
+    if (AudioManager.Instance != null)
+    {
+        AudioManager.Instance.PlayLoseSound();
+    }
+});
+
+// Shine effect when skull appears
+if (shineYellow != null) 
+{
+    sequence.AppendCallback(() => {
+        shineYellow.startColor = new Color(0.6f, 0.153f, 0.682f); // #9927AE
+        shineYellow.gameObject.SetActive(true);
+        shineYellow.Play();
+    });
+}
+
 
         // Animate empty stars and full stars based on StarsToShow
         sequence.Append(AnimateToOriginal(star1Empty, 0.3f, Ease.OutBack));
         if (StarsToShow >= 1)
         {
-            sequence.Append(AnimateToOriginal(star1Full, 0.3f, Ease.OutElastic))
-                .OnComplete(() => PlayStarParticles(1));
+            sequence.Append(AnimateToOriginal(star1Full, 0.3f, Ease.OutElastic));
+            sequence.AppendCallback(() => PlayStarParticles(1));
         }
 
         sequence.Append(AnimateToOriginal(star2Empty, 0.3f, Ease.OutBack));
         if (StarsToShow >= 2)
         {
-            sequence.Append(AnimateToOriginal(star2Full, 0.3f, Ease.OutElastic))
-                .OnComplete(() => PlayStarParticles(2));
+            sequence.Append(AnimateToOriginal(star2Full, 0.3f, Ease.OutElastic));
+            sequence.AppendCallback(() => PlayStarParticles(2));
         }
 
         sequence.Append(AnimateToOriginal(star3Empty, 0.3f, Ease.OutBack));
         if (StarsToShow >= 3)
         {
-            sequence.Append(AnimateToOriginal(star3Full, 0.3f, Ease.OutElastic))
-                .OnComplete(() => PlayStarParticles(3));
+            sequence.Append(AnimateToOriginal(star3Full, 0.3f, Ease.OutElastic));
+            sequence.AppendCallback(() => PlayStarParticles(3));
         }
 
         sequence.Append(AnimateToOriginal(scoretext, 0.5f));
@@ -198,7 +220,7 @@ public class LossWedget : MonoBehaviour
     {
         DOTween.KillAll();
         InitializeElements();
-        AnimateVictoryScreen();
+        AnimateLoss();
     }
 
     private void InitializeParticleSystems()
@@ -220,10 +242,10 @@ public class LossWedget : MonoBehaviour
             sparkleYellow3.Stop();
             var main = sparkleYellow3.main;
             main.playOnAwake = false;
-        }
-        if (shineYellow != null)
+        }        if (shineYellow != null)
         {
             shineYellow.Stop();
+            shineYellow.gameObject.SetActive(true);
             var main = shineYellow.main;
             main.playOnAwake = false;
         }

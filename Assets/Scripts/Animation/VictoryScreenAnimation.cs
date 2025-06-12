@@ -48,7 +48,7 @@ public class VictoryScreenAnimation : MonoBehaviour
 
 void Awake()
 {
-    
+
     StarsToShow = GameManager.Instance.stars;
     StoreOriginalTransforms();
 
@@ -188,58 +188,70 @@ void Awake()
     }
 
     void AnimateVictoryScreen()
+{
+    Sequence sequence = DOTween.Sequence();
+
+    sequence.Append(transform.DOLocalMove(new Vector3(0f, -52f, 0f), 1.0f).SetEase(Ease.OutQuad));
+
+    // Play initial effects
+    if (cardglowType03 != null)
     {
-        Sequence sequence = DOTween.Sequence();
-
-        sequence.Append(transform.DOLocalMove(new Vector3(0f, -52f, 0f), 1.0f).SetEase(Ease.OutQuad));
-
-        // Play initial effects
-        if (cardglowType03 != null)
-        {
-            cardglowType03.gameObject.SetActive(true);
-            cardglowType03.Play();
-        }
-
-        sequence.Append(AnimateToOriginal(ribbon, 0.5f));
-        sequence.Join(AnimateToOriginal(victoryHornsLeft, 0.5f));
-        sequence.Join(AnimateToOriginal(victoryHornsRight, 0.5f));
-        sequence.Append(AnimateToOriginal(victoryCup, 0.5f));
-
-        // Shine effect when cup appears
-        if (shineYellow != null)
-        {
-            sequence.AppendCallback(() => {
-                shineYellow.gameObject.SetActive(true);
-                shineYellow.Play();
-            });
-        }
-
-        sequence.Append(AnimateToOriginal(star1Empty, 0.3f, Ease.OutBack));
-        if (StarsToShow >= 1)
-        {
-            sequence.Append(AnimateToOriginal(star1Full, 0.3f, Ease.OutElastic));
-            sequence.AppendCallback(() => PlayStarParticles(1));
-        }
-            
-        sequence.Append(AnimateToOriginal(star2Empty, 0.3f, Ease.OutBack));
-        if (StarsToShow >= 2)
-        {
-            sequence.Append(AnimateToOriginal(star2Full, 0.3f, Ease.OutElastic));
-            sequence.AppendCallback(() => PlayStarParticles(2));
-        }
-            
-        sequence.Append(AnimateToOriginal(star3Empty, 0.3f, Ease.OutBack));
-        if (StarsToShow >= 3)
-        {
-            sequence.Append(AnimateToOriginal(star3Full, 0.3f, Ease.OutElastic));
-            sequence.AppendCallback(() => PlayStarParticles(3));
-        }
-
-        sequence.Append(AnimateToOriginal(scoretext, 0.5f));
-        sequence.Join(AnimateToOriginal(scoreNumber, 0.5f));
-        sequence.Join(AnimateToOriginal(coinIcon, 0.5f));
-        sequence.Join(AnimateToOriginal(coinText, 0.5f));
+        cardglowType03.startColor = new Color(1f, 0.682f, 0.098f);
+        cardglowType03.gameObject.SetActive(true);
+        cardglowType03.Play();
     }
+
+    sequence.Append(AnimateToOriginal(ribbon, 0.5f));
+    sequence.Join(AnimateToOriginal(victoryHornsLeft, 0.5f));
+    sequence.Join(AnimateToOriginal(victoryHornsRight, 0.5f));
+    sequence.Append(AnimateToOriginal(victoryCup, 0.5f));
+
+    // **Play win sound here**
+    sequence.AppendCallback(() => {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayWinSound();
+        }
+    });
+
+    // Shine effect when cup appears
+    if (shineYellow != null) 
+    {
+        sequence.AppendCallback(() => {
+            shineYellow.startColor = new Color(0.682f, 0.592f, 0.153f);
+            shineYellow.gameObject.SetActive(true);
+            shineYellow.Play();
+        });
+    }
+
+    // ... continue with stars and other animations
+    sequence.Append(AnimateToOriginal(star1Empty, 0.3f, Ease.OutBack));
+    if (StarsToShow >= 1)
+    {
+        sequence.Append(AnimateToOriginal(star1Full, 0.3f, Ease.OutElastic));
+        sequence.AppendCallback(() => PlayStarParticles(1));
+    }
+        
+    sequence.Append(AnimateToOriginal(star2Empty, 0.3f, Ease.OutBack));
+    if (StarsToShow >= 2)
+    {
+        sequence.Append(AnimateToOriginal(star2Full, 0.3f, Ease.OutElastic));
+        sequence.AppendCallback(() => PlayStarParticles(2));
+    }
+        
+    sequence.Append(AnimateToOriginal(star3Empty, 0.3f, Ease.OutBack));
+    if (StarsToShow >= 3)
+    {
+        sequence.Append(AnimateToOriginal(star3Full, 0.3f, Ease.OutElastic));
+        sequence.AppendCallback(() => PlayStarParticles(3));
+    }
+
+    sequence.Append(AnimateToOriginal(scoretext, 0.5f));
+    sequence.Join(AnimateToOriginal(scoreNumber, 0.5f));
+    sequence.Join(AnimateToOriginal(coinIcon, 0.5f));
+    sequence.Join(AnimateToOriginal(coinText, 0.5f));
+}
+
 
     Tweener AnimateToOriginal(GameObject obj, float duration, Ease easeType = Ease.OutBounce)
     {

@@ -45,10 +45,8 @@ public class NumberSlotChecker : DigitSlot
     private ParticleSystem.MainModule sparkleYellow1Main;
     private ParticleSystem.MainModule sparkleYellow2Main;
     private ParticleSystem.MainModule sparkleYellow3Main;
-    private ParticleSystem.MainModule heartBreakMain;
-
-    [Header("Audio")]
-    [SerializeField] private AudioManager audioManager;
+    private ParticleSystem.MainModule heartBreakMain;    [Header("Audio")]
+    // Using AudioManager.Instance instead of serialized reference
     private AudioClip winVoice;
     private AudioClip loseVoice;
 
@@ -61,11 +59,8 @@ public class NumberSlotChecker : DigitSlot
     private bool isGameOver = false;
     private bool timerIsRunning = false;
     private int startingLives = 3;
-    private int maxNumberRange;
-
-    void Awake()
+    private int maxNumberRange;    void Awake()
     {
-        InitializeAudioManager();
         LoadAudioClips();
         InitializeGameState();
         InitializeParticleSystems();
@@ -94,21 +89,7 @@ public class NumberSlotChecker : DigitSlot
                 HandleTimeUp();
             }
         }
-    }
-
-    private void InitializeAudioManager()
-    {
-        if (audioManager == null)
-        {
-            audioManager = FindObjectOfType<AudioManager>();
-            if (audioManager == null)
-            {
-                Debug.LogError("AudioManager reference not set and couldn't be found in the scene!");
-            }
-        }
-    }
-
-    private void LoadAudioClips()
+    }    private void LoadAudioClips()
     {
         winVoice = Resources.Load<AudioClip>("Audio/win_voice");
         loseVoice = Resources.Load<AudioClip>("Audio/lose_voice");
@@ -288,8 +269,6 @@ public class NumberSlotChecker : DigitSlot
                     .SetEase(Ease.OutFlash, 2, 0))
                     .Append(starImages[i].DOColor(Color.white, starAnimDuration * 0.5f));
 
-                // Play emoji first
-                PlayRandomCorrectEmoji();
                 
                 // Play star particles with delay
                 PlayParticleEffect(bigStarFilledParticle, 2f); // 1 second delay
@@ -306,11 +285,9 @@ public class NumberSlotChecker : DigitSlot
                     case 2:
                         PlayParticleEffect(sparkleYellow3Particle, 1.2f);
                         break;
-                }
-
-                if (audioManager != null && winVoice != null)
+                }                if (winVoice != null)
                 {
-                    audioManager.PlayOneShot(winVoice);
+                    AudioManager.Instance.PlayOneShot(winVoice);
                 }
             }
         }
@@ -339,15 +316,7 @@ public class NumberSlotChecker : DigitSlot
     GameSessionData.completionTime = 0;
     
     GameManager.Instance.MiniGameComplete(score, correctAnswers, maxRounds - correctAnswers);
-}
-
-    private void OnValidate()
-    {
-        if (audioManager == null)
-        {
-            Debug.LogWarning("AudioManager reference is not set in the inspector for NumberSlotChecker!");
-        }
-    }
+}    // OnValidate no longer needed since we're using the singleton pattern
 
 
     public void GenerateNewNumber()
@@ -395,19 +364,10 @@ public class NumberSlotChecker : DigitSlot
         }
 
         return symbolList.ToArray();
-    }
-
-    public void PlaySoundForNumber()
+    }    public void PlaySoundForNumber()
 {
-    if (audioManager != null)
-    {
-        string key = correctNumber.ToString();
-        audioManager.PlaySoundForKey(key);
-    }
-    else
-    {
-        Debug.LogError("AudioManager reference is missing!");
-    }
+    string key = correctNumber.ToString();
+    AudioManager.Instance.PlaySoundForKey(key);
 }
 
 
@@ -449,8 +409,8 @@ private async Task HandleAnswerCheck(int droppedNumber)
         HandleWrongAnswer(droppedNumber);
     }
 
-    // Optional: if you need to simulate delay or wait for animations/sounds
-    await Task.Delay(1000); // or use await Task.Delay(500);
+   
+    await Task.Delay(1000); 
 }
 
 
@@ -461,15 +421,16 @@ private async Task HandleAnswerCheck(int droppedNumber)
         UpdateStarProgress();
         
         PlayRandomCorrectEmoji();
+        AudioManager.Instance.PlayCorrectSound();
         
         ShowMessage("You answered right!");
         if (ScoreText != null)
         {
             ScoreText.text = $"{score}";
         }
-        if (audioManager != null && winVoice != null)
+        if (winVoice != null)
         {
-            audioManager.PlayOneShot(winVoice);
+            AudioManager.Instance.PlayOneShot(winVoice);
         }
 
         StartCoroutine(GenerateNewNumberAfterDelay(3f));
@@ -481,13 +442,14 @@ private async Task HandleAnswerCheck(int droppedNumber)
         livesRemaining = Mathf.Clamp(livesRemaining - 1, 0, startingLives);
 
         PlayParticleEffect(heartBreakParticle);
+        AudioManager.Instance.PlayFalseSound();
 
         UpdateLivesDisplay();
         ShowMessage("Wrong answer!");
 
-        if (audioManager != null && loseVoice != null)
+        if (loseVoice != null)
         {
-            audioManager.PlayOneShot(loseVoice);
+            AudioManager.Instance.PlayOneShot(loseVoice);
         }
 
         if (livesRemaining <= 0)
