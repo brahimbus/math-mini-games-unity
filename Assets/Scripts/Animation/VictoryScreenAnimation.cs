@@ -177,21 +177,13 @@ void Awake()
                 {
                     sparkleYellow3.gameObject.SetActive(true);
                     sparkleYellow3.Play();
-                }
-                if (confettiBlastRainbow != null)
-                {
-                    confettiBlastRainbow.gameObject.SetActive(true);
-                    confettiBlastRainbow.Play();
-                }
-                break;
+                }                break;
         }
     }
 
     void AnimateVictoryScreen()
 {
-    Sequence sequence = DOTween.Sequence();
-
-    sequence.Append(transform.DOLocalMove(new Vector3(0f, -52f, 0f), 1.0f).SetEase(Ease.OutQuad));
+    Sequence sequence = DOTween.Sequence();    sequence.Append(transform.DOLocalMove(new Vector3(0f, -52f, 0f), 1.0f).SetEase(Ease.OutQuad));
 
     // Play initial effects
     if (cardglowType03 != null)
@@ -199,6 +191,13 @@ void Awake()
         cardglowType03.startColor = new Color(1f, 0.682f, 0.098f);
         cardglowType03.gameObject.SetActive(true);
         cardglowType03.Play();
+    }
+
+    // Play confetti effect at the start
+    if (confettiBlastRainbow != null)
+    {
+        confettiBlastRainbow.gameObject.SetActive(true);
+        confettiBlastRainbow.Play();
     }
 
     sequence.Append(AnimateToOriginal(ribbon, 0.5f));

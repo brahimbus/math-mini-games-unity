@@ -34,8 +34,10 @@ public class TestResult
     public string teacherId;
     public string testId;
     public string testName;
+    public string grade;
 
     public int correctAnswers;
     public int wrongAnswers;
     public float completionTime;
+    public string RightGrade;
 }

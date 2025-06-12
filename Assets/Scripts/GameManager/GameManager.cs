@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public int numQuestions;
     public int requiredCorrectAnswersMinimumPercent;
     public float testDuration;
+    public string RightGrade;
 
     // Internal state
     private int currentMiniGameIndex = 0;
@@ -274,9 +275,11 @@ public class GameManager : MonoBehaviour
             teacherId = testData.teacherId,
             testId = currentTestId,
             testName = testData.testName,
+            grade = testData.grade,
             correctAnswers = correctAnswers,
             wrongAnswers = wrongAnswers,
             completionTime = completionTime
+            , RightGrade = RightGrade
         };        try
         {
             await FirebaseService.Instance.SaveTestResult(result);
@@ -316,18 +319,23 @@ public class GameManager : MonoBehaviour
         // Example thresholds — adjust as you like
         if (percentage >= 90f)
         {
+
+            RightGrade = "yes";
             return 3; 
         }
         else if (percentage >= 75f)
-        {
+        {   RightGrade = "yes";
             return 2; 
         }
         else if (percentage >= 50f)
         {
+            RightGrade = "no";
             return 1; 
         }
         else
         {
+            RightGrade = "no";
+
             return 0; // No stars
         }
     }

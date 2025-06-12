@@ -173,8 +173,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 6a57dcfa61d178340bf3806cb7d11e02, type: 3}
   winSound: {fileID: 8300000, guid: 696f2352108e4db47a8f40e416442ad8, type: 3}
   loseSound: {fileID: 8300000, guid: 7e50a99998a3bab40affb26bb3bb3ff2, type: 3}
-  correctSound: {fileID: 8300000, guid: c0c36b1efaf843d4fab52c9268f77616, type: 3}
-  falseSound: {fileID: 8300000, guid: 64140dc951c794d458c27f55ad5a6f2d, type: 3}
+  correctSound: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
+  falseSound: {fileID: 8300000, guid: 5fdb13d3756c84fecac96f5a2d124370, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 0cb0f74fc74162745b2e3a31336a6b8a, type: 3}
 --- !u!4 &25058646
 Transform:

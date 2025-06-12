@@ -511,7 +511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 3750
+  m_Text: 300
 --- !u!222 &163263796
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1097,7 +1097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08d69a800143967438413d195066de65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StarsToShow: 2
+  StarsToShow: 1
   score: 133
   ribbon: {fileID: 1112389470}
   LossSkull: {fileID: 1254261553}
@@ -1297,7 +1297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e289f20a363ac648aa94eea53a68091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StarsToShow: 0
+  StarsToShow: 3
   ribbon: {fileID: 872613411}
   victoryHornsLeft: {fileID: 694343515}
   victoryHornsRight: {fileID: 645722193}
@@ -2916,7 +2916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19939786, guid: 36bdc02b23d9ca94d93bd715c0cca5c0, type: 3}
       propertyPath: m_SortingOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 19939786, guid: 36bdc02b23d9ca94d93bd715c0cca5c0, type: 3}
       propertyPath: m_Materials.Array.size
